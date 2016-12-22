@@ -266,7 +266,8 @@ Installing /usr/local/bin/make_sandbox_from_installed
 Installing /usr/local/bin/make_multiple_custom_sandbox
 Installing /usr/local/bin/make_sandbox_from_source
 Installing /usr/local/bin/sbtool
-Appending installation info to /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/perllocal.pod```
+Appending installation info to /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/perllocal.pod
+```
 
 
 15. İnstall etdikdən sonra compile etdiyimiz mysql source kodundan yeni instance yaradaq.  Əgər root user istifadə edirsinizsə SANDBOX_AS_ROOT parametrini 0 – dan fərqli dəyərə set etmək lazımdır. `export SANDBOX_AS_ROOT=1`
@@ -347,6 +348,7 @@ do you agree? ([Y],n) Y
 ... sandbox server started
 # Loading grants
 Your sandbox server was installed in $HOME/sandboxes/msb_5_7_17
+
 ```
 
 Qurduğunuz serverə bağlanmaq üçün son sətirdə qeyd edilmiş qovluğa keçid edib aşağıdakı komandanı işə sala bilərsiniz.

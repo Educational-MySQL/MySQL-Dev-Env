@@ -72,7 +72,9 @@ cmake -DCMAKE_INSTALL_PREFIX=/opt/mysql57 -DMYSQL_DATADIR=/opt/mysql57/data -DSY
 
 9. Mysql istifadçisini və qrupunu yaradın (groupadd mysql) və (useradd –g mysql). ``/opt/mysql57` qovluğunun sahibini mysql useri edin – `chown –R mysql.mysql /opt/mysql57/`
 
+
 10. my.cnf faylınızı yaradın. Aşağıdakı parametrlər test sistem üçündür və sizin server parametrlərinə görə dəyişə bilər:
+
 ```
 [mysqld]
 datadir=/opt/mysql57/data/
@@ -118,6 +120,7 @@ max_binlog_size = 100M
 socket=/opt/mysql57/data/mysql.sock
 ```
 
+
 11. MySQL Server initialize əmrini verək `mysqld --defaults-file=/etc/my.cnf --initialize`. Bu komanda ilə `my.cnf` faylında göstərdiyiniz parametrlərə uyğun olaraq serverin işləməsi üçün lazım olan fayllar və sistem database-ləri generate olunacaq.(Datadir İnitialization)
 
 12. Serveri start edək. `mysqld_safe –defaults-file=/etc/my.cnf &`
@@ -134,9 +137,9 @@ root@ip-172-31-17-224:/opt/mysql57/bin# 2016-12-22T08:52:55.618919Z mysqld_safe 
 
 13. Qurduğumuz serverə bağlanaq. Bağlanmamışdan öncə mysql error logundan initialize zamanı generate olunmuş temporary şifrəni götürməniz lazımdır.
 
+```
 root@ip-172-31-17-224:/var/log# cat /var/log/mysql-error.log |grep "temporary pass"
-2016-12-22T07:59:27.722674Z 1 [Note] A temporary password is generated for root@localhost: olbeoY?Wv3Hr
-
+2016-12-22T07:59:27.722674Z 1 [Note] A temporary password is generated for root@localhost: olbeoY?Wv3H
 
  root@ip-172-31-17-224:/opt/mysql57/bin# ./mysql –u root -p
 Enter password:
@@ -154,11 +157,14 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 mysql> exit
 
+```
+
 Həmçinin unutmaq lazım deyil ki, bu temporary password birdəfəlik istifadə üçündür və connect olduqdan sonra, dərhal dəyişmək lazımdır.
-mysql> set password=password(‘YourPass’)
+`mysql> set password=password(‘YourPass’)`
 
 14. Mysql_sandbox istifadə etməyə qərar verdinizsə, ilk öncə github reponu endirib install etmək lazımdır. Addımlar aşağıdakı kimidir.
-git clone https://github.com/datacharmer/mysql-sandbox
+`git clone https://github.com/datacharmer/mysql-sandbox`
+```
 Cloning into 'mysql-sandbox'...
 remote: Counting objects: 2092, done.
 remote: Compressing objects: 100% (7/7), done.
@@ -167,9 +173,11 @@ Receiving objects: 100% (2092/2092), 639.36 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (1275/1275), done.
 Checking connectivity... done.
 cd mysql-sandbox/
+```
 
 Rəsmi github reposunda göstərildiyi kimi install edək. Addımlar və loglar aşağıdakı kimidir. Rahatlıq üçün komandaları bold etmişəm.
 
+```
 root@ip-172-31-17-224:/github/mysql-sandbox# perl Makefile.PL
 Checking if your kit is complete...
 Looks good
@@ -258,14 +266,17 @@ Installing /usr/local/bin/make_sandbox_from_installed
 Installing /usr/local/bin/make_multiple_custom_sandbox
 Installing /usr/local/bin/make_sandbox_from_source
 Installing /usr/local/bin/sbtool
-Appending installation info to /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/perllocal.pod
+Appending installation info to /usr/local/lib/x86_64-linux-gnu/perl/5.22.1/perllocal.pod```
 
-15. İnstal etdikdən sonra compile etdiyimiz mysql source kodundan yeni instance yaradaq.  Əgər root user istifadə edirsinizsə SANDBOX_AS_ROOT parametrini 0 – dan fərqli dəyərə set etmək lazımdır. export SANDBOX_AS_ROOT=1
+
+15. İnstall etdikdən sonra compile etdiyimiz mysql source kodundan yeni instance yaradaq.  Əgər root user istifadə edirsinizsə SANDBOX_AS_ROOT parametrini 0 – dan fərqli dəyərə set etmək lazımdır. `export SANDBOX_AS_ROOT=1`
 Əks halda run edə bilməyəcəksiniz.
 
-make_sandbox_from_source /github/mysql-server single
+`make_sandbox_from_source /github/mysql-server single`
 
 Nəticə aşağıdakı kimi olacaq. Loglarla yanaşı sizə qurulmuş instance barədə məlutlar da veriləcək.
+
+```
 no old tarball found
 CPack: Create package using TGZ
 CPack: Install projects
@@ -336,9 +347,11 @@ do you agree? ([Y],n) Y
 ... sandbox server started
 # Loading grants
 Your sandbox server was installed in $HOME/sandboxes/msb_5_7_17
+```
 
 Qurduğunuz serverə bağlanmaq üçün son sətirdə qeyd edilmiş qovluğa keçid edib aşağıdakı komandanı işə sala bilərsiniz.
 
+```
 cd $HOME/sandboxes/msb_5_7_17
 root@ip-172-31-17-224:~/sandboxes/msb_5_7_17# ./use –uroot
 Welcome to the MySQL monitor.  Commands end with ; or \g.
@@ -369,3 +382,4 @@ root@ip-172-31-17-224:~/sandboxes/msb_5_7_17# ./start   -- Serveri start edir
 . sandbox server started
 root@ip-172-31-17-224:~/sandboxes/msb_5_7_17# ./status  -- Statusunu göstərir
 msb_5_7_17 on
+```

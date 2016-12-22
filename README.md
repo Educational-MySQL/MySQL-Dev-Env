@@ -1,7 +1,7 @@
 # MySQL-Dev-Env
 Azərbaycan dilində, MySQL development mühitin hazırlanması haqqında faydalı məlumatların yerləşdiyi repo.
 
-Bu doc Yusif  Yusifli tərəfindən hazırlanmışdır. Təşəkkür edirik.
+Bu doc [*Yusif  Yusifli*](https://www.facebook.com/yusifovy) tərəfindən hazırlanmışdır. Təşəkkür edirik.
 
 MYSQL Server 5.7.17(5.7)–nin Github repo-dan endirilib, compile edilərək işə salınması haqqında manual.
 
@@ -10,7 +10,7 @@ Addımlar sırası ilə aşağıdakı kimidir:
 
 1. Github-dan Repo-nu endirə bilmək üçün `git` yüklənməlidir (əgər yoxdursa). Var olmasını yoxlamaq üçün, git –version komandasından istifadə edə bilərsiniz. Paketin yazılması - `apt-get install git`
 
-2. Mysql Server rəsmi repo linki  - [https://github.com/mysql/mysql-server]
+2. Mysql Server rəsmi repo linki  - [https://github.com/mysql/mysql-server](https://github.com/mysql/mysql-server)
 Reponu öz local kompüterinizə endirmək üçün – `git clone https://github.com/mysql/mysql-server` (Ən son versiyanı endirəcək ),(komandanı işə saldığınız zaman olduğunuz qovluğa yükləyəcək. Əgər fərqli qovluq istəyirsinizsə öncədən yaradıb orada işə salın)
 Əgər mysql-server in ən son versiyasını yox başqa versiyalarını endirmək istəyirsinizsə aşağıdakı əməliyyatları etmək lazım gələcək:
 ```
@@ -38,7 +38,11 @@ root@ip-172-31-17-224:/github/mysql-server# git branch
 ```
 
 Nəzərə alın ki, compile komandasını işə saldığınız zaman yalnız aktiv olan repo compile olunur.
-3. Bəzi lazımi paketlərin yüklənməsi. Mənim aldığım xətalara və Şəhriyarın yazdıqlarına əsasən aşağıdakıları yüklədim. Yükləmə qaydasını 1-ci addımdakı nümunədə görə bilərsiniz.
+
+3. Bəzi lazımi paketlərin yüklənilməsi.
+Mənim aldığım xətalara və Şəhriyarın yazdıqlarına əsasən aşağıdakıları yüklədim. Yükləmə qaydasını, 1-ci addımdakı nümunədə görə bilərsiniz.
+
+```
 build-essential
 bison
 libssl-dev
@@ -51,14 +55,25 @@ gcc-c++
 libncurses5-dev
 zlib1g-dev
 libreadline6-dev
-4. Paketlər yükləndikdən sonra compile işləminə başlaya bilərsiniz. Compile komandası da həmçinin Şəhriyarın mysql.az –da yazdığı məqaləyə uyğun olaraq aşağıdakı kimi seçildi. Hər hansı xəta alsanız həll etmədən növbəti addıma keçməyin. Əgər xəta ilə qarşılaşsanız səbəbini həll edib repo olan qovluqda (Mis - /github/mysql-server/) yaranan CmakeCache.txt faylını silmək lazımdır. Faylı sildikdən sonra compile comandasını yenidən işə sala bilərsiniz.
+```
+4. Paketlər yükləndikdən sonra compile işləminə başlaya bilərsiniz. Compile komandası da həmçinin [Şəhriyarın](https://www.facebook.com/hadjirza.s) [mysql.az](https://mysql.az/2015/08/18/installing-mysql-from-source-cmake-issues/) –da yazdığı məqaləyə uyğun olaraq aşağıdakı kimi seçildi. Hər hansı xəta alsanız, həll etmədən, növbəti addıma keçməyin. Əgər xəta ilə qarşılaşsanız, səbəbini həll edib repo olan qovluqda (Məsələn - /github/mysql-server/) yaranan `CmakeCache.txt` faylını silmək lazımdır. Faylı sildikdən sonra, compile komandasını yenidən işə sala bilərsiniz.
+
+```
 cmake -DCMAKE_INSTALL_PREFIX=/opt/mysql57 -DMYSQL_DATADIR=/opt/mysql57/data -DSYSCONFDIR=/opt/mysql57 -DWITH_SSL=system -DMYSQL_TCP_PORT=3307 -DMYSQL_UNIX_ADDR=/opt/mysql57/mysqld.sock -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_DEBUG=1 -DCOMPILATION_COMMENT="Yusif Yusifov MYSQL 5.7" -DOPTIMIZER_TRACE=1 -DWITH_ZLIB=system -DWITH_VALGRIND=1 -DCMAKE_C_FLAGS=-DHAVE_purify -DCMAKE_CXX_FLAGS=-DHAVE_purify -DENABLE_DOWNLOADS=1 -DDOWNLOAD_BOOST=1 -DWITH_BOOST=/opt/mysql57
-5. Yuxarıdakı addım uğurla bitdikdən sonra make və make install komandaları ilə compile olunmuş faylları yuxarıda göstərdiyiniz qovluğa yükləyəcək.
-6. Əgər mysql_sandbox –dan istifadə etmək istəyirsinizsə, bu addımdan sonra 14 – cü addıma keçin. Mysql_sandbox istifadə etmək istəməsəniz, 14-cü addıma kimi davam edə bilərsiniz.
-7. Mysql binary faylları olan qovluğu env-yə əlavə edin export PATH = /opt/mysql57/bin/:$PATH
-8. /opt/mysql57 qovuluğu altında data və binary loglar üçün yer ayırın. Yeri fərqli də seçə bilərsiniz. mkdir –p /opt/mysql57/data/ /opt/mysql57/mblog/
-9. Mysql istifadçisini və qrupunu yaradın (groupadd mysql) və (useradd –g mysql). /opt/mysql57 qovluğunun sahibini mysql useri edin – chown –R mysql.mysql /opt/mysql57/
-10. my.cnf faylınızı yaradın. Aşağıdakı parametrlər test sistem üçündür və sizin server parametrlərinə görə dəyişə bilər.
+```
+
+5. Yuxarıdakı addım uğurla bitdikdən sonra, make və make install komandaları ilə compile olunmuş faylları yuxarıda göstərdiyiniz qovluğa yükləyəcək.
+
+6. Əgər `mysql_sandbox`–dan istifadə etmək istəyirsinizsə, bu addımdan sonra 14–cü addıma keçin. mysql_sandbox istifadə etmək istəməsəniz, 14-cü addıma kimi davam edə bilərsiniz.
+
+7. Mysql binary faylları olan qovluğu env-yə əlavə edin `export PATH = /opt/mysql57/bin/:$PATH`
+
+8. `/opt/mysql57` qovuluğu altında data və binary loglar üçün yer ayırın. Yeri fərqli də seçə bilərsiniz. `mkdir –p /opt/mysql57/data/ /opt/mysql57/mblog/`
+
+9. Mysql istifadçisini və qrupunu yaradın (groupadd mysql) və (useradd –g mysql). ``/opt/mysql57` qovluğunun sahibini mysql useri edin – `chown –R mysql.mysql /opt/mysql57/`
+
+10. my.cnf faylınızı yaradın. Aşağıdakı parametrlər test sistem üçündür və sizin server parametrlərinə görə dəyişə bilər:
+```
 [mysqld]
 datadir=/opt/mysql57/data/
 sql_mode = ''
@@ -101,15 +116,21 @@ log-bin = /opt/mysql57/mblog/binlog
 max_binlog_size = 100M
 [client]
 socket=/opt/mysql57/data/mysql.sock
+```
 
-11. MySQL Server initialize əmrini verək mysqld --defaults-file=/etc/my.cnf –initialize Bu komanda ilə my.cnf faylında göstərdiyiniz parametrlərə uyğun olaraq serverin işləməsi üçün lazım olan fayllar və sistem database-ləri generate olunacaq.
-12. Serveri start edək. mysqld_safe –defaults-file=/etc/my.cnf &  Mən test etdiyim zaman root userindən istifadə etdiyimə görə  aşağıdakı kimi vəziyyət yaranmışdı. Həll yolu kimi mysql error log faylını owneri-ni mysql userinə dəyişdim.
+11. MySQL Server initialize əmrini verək `mysqld --defaults-file=/etc/my.cnf --initialize`. Bu komanda ilə `my.cnf` faylında göstərdiyiniz parametrlərə uyğun olaraq serverin işləməsi üçün lazım olan fayllar və sistem database-ləri generate olunacaq.(Datadir İnitialization)
+
+12. Serveri start edək. `mysqld_safe –defaults-file=/etc/my.cnf &`
+Mən test etdiyim zaman root userindən istifadə etdiyimə görə  aşağıdakı kimi vəziyyət yaranmışdı. Həll yolu kimi mysql error log faylını owneri-ni mysql userinə dəyişdim.
+
+```
 root@ip-172-31-17-224:/opt/mysql57/bin# 2016-12-22T08:52:55.618919Z mysqld_safe Logging to '/var/log/mysql-error.log'.
 2016-12-22T08:52:55.620029Z mysqld_safe Logging to '/var/log/mysql-error.log'.
 2016-12-22T08:52:55.630692Z mysqld_safe Starting mysqld daemon with databases from /opt/mysql57/data/
 2016-12-22T08:52:55.815570Z mysqld_safe mysqld from pid file /opt/mysql57/data/mysql.pid ended
 
 [1]+  Done                    ./mysqld_safe
+```
 
 13. Qurduğumuz serverə bağlanaq. Bağlanmamışdan öncə mysql error logundan initialize zamanı generate olunmuş temporary şifrəni götürməniz lazımdır.
 
